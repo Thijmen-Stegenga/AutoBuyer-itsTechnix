@@ -1,11 +1,13 @@
+  
 
 // ==UserScript==
 // @name         FUT21 Autobuyer
 // @namespace    http://tampermonkey.net/
-// @version      1.4.2
+// @version      1.4.3
 // @updateURL    https://github.com/oRastor/fut21-web-app/raw/master/fut21-autobuyer.user.js
 // @description  FUT21 Autobuyer
-// @author       itsTechnix
+// @author       Rastor
+// @co-author    Tiebe_V
 // @match        https://www.easports.com/uk/fifa/ultimate-team/web-app/*
 // @match        https://www.ea.com/fifa/ultimate-team/web-app/*
 // @grant        none
@@ -240,8 +242,7 @@
             //getAppMain().superclass(),
             this._viewmodel || (this._viewmodel = new viewmodels.BucketedItemSearch),
                 this._viewmodel.searchCriteria.type === enums.SearchType.ANY && (this._viewmodel.searchCriteria.type = enums.SearchType.PLAYER);
-            var t = gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE)
-            , count = 1 + (utils.JS.isValid(t) ? t[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] : 15);
+            var count = 16;
             this._viewmodel.searchCriteria.count = count,
                 this._viewmodel.searchFeature = enums.ItemSearchFeature.MARKET;
             var view = this.getView();
@@ -253,9 +254,9 @@
                 view.addTarget(this, this._eMinBuyPriceChanged, UTMarketSearchFiltersView.Event.MIN_BUY_PRICE_CHANGE),
                 view.addTarget(this, this._eMaxBuyPriceChanged, UTMarketSearchFiltersView.Event.MAX_BUY_PRICE_CHANGE),
                 this._viewmodel.getCategoryTabVisible() && (view.initTabMenuComponent(),
-                                                            view.getTabMenuComponent().addTarget(this, this._eSearchCategoryChanged, enums.Event.TAP)),
+                                                            view.getTabMenuComponent().addTarget(this, this._eSearchCategoryChanged, EventType.TAP)),
                 this._squadContext ? isPhone() || view.addClass("narrow") : view.addClass("floating"),
-                view.getPlayerNameSearch().addTarget(this, this._ePlayerNameChanged, enums.Event.CHANGE),
+                view.getPlayerNameSearch().addTarget(this, this._ePlayerNameChanged, EventType.CHANGE),
                 view.__root.style = "width: 50%; float: left;";
         }
     };
